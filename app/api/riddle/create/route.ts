@@ -4,7 +4,9 @@ const createRiddle = async (req: NextRequest) => {
 
     // const {text, correctAnswer, image} = req.body;
 
-    console.log(req.body)
+
+    const content = await req.formData();
+
 
     return new NextResponse(JSON.stringify(''), {status: 200})
 };
