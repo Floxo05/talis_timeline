@@ -1,7 +1,7 @@
 "use client"
 
-import React, {useState} from "react";
-import AuthService from "@/utils/AuthService";
+import React, {useEffect, useState} from "react";
+import AuthService from "@/utils/Auth/AuthService";
 import {useRouter} from "next/navigation";
 import TimelineEntry from "@/components/TimelineEntryProps";
 
@@ -60,6 +60,11 @@ const Timeline: React.FC = () => {
 
     const [points, setPoints] = useState(0);
 
+    useEffect(() => {
+        fetch('/api/points/get')
+            .then((res) => res.json())
+            .then((data) => setPoints(data.points))
+    }, [])
     const handleIncrementPoints = () => {
         router.push("riddle")
     };

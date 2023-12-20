@@ -1,8 +1,11 @@
 "use client"
 // pages/Riddles.tsx
 import React, {useEffect, useState} from 'react';
+import {useRouter} from "next/navigation";
 
 const Riddles: React.FC = () => {
+    const router = useRouter();
+
     const [riddleData, setRiddleData] = useState({
         question: '',
         options: [],
@@ -15,7 +18,7 @@ const Riddles: React.FC = () => {
         // Simulating an API request delay
         const delay = setTimeout(() => {
             // Fetch riddle data from your API endpoint
-            fetch('/api/get-riddle') // Updated API endpoint
+            fetch('/api/riddle/get') // Updated API endpoint
                 .then((response) => response.json())
                 .then((data) => {
                     setRiddleData(data);
@@ -31,15 +34,22 @@ const Riddles: React.FC = () => {
         return () => clearTimeout(delay);
     }, []);
 
-    const handleAnswerSubmit = (selectedOption: string) => {
+    const handleAnswerSubmit = async (selectedOption: string) => {
         // Check if the selected option is the correct answer
         const isCorrect = selectedOption === riddleData.correctAnswer;
 
         // If correct, add points to the main point count on the timeline page
         if (isCorrect) {
-            // You may want to send an API request to update the main point count
-            // Here, I'm just logging the points for demonstration purposes
-            console.log('Points earned:', riddleData.points);
+            await fetch('/api/points/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    points: riddleData.points
+                })
+            });
+            router.push('/timeline');
         }
 
         // You can close the riddle flyout or redirect to the timeline page

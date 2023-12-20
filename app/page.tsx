@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from 'react';
 import {useRouter} from "next/navigation";
-import AuthService from "@/utils/AuthService";
+import AuthService from "@/utils/Auth/AuthService";
 
 const Home: React.FC = () => {
     const [password, setPassword] = useState('');
