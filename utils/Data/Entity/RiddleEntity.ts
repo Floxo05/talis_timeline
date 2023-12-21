@@ -1,8 +1,17 @@
-export default class RiddleEntity {
+export class RiddleEntity {
+    private _id: string = '';
     private _text: string = '';
     private _pictureId: string|null = null;
     private _answers: string[] = [];
     private _correctAnswerId: number = -1;
+
+    get id(): string {
+        return this._id;
+    }
+
+    set id(value: string) {
+        this._id = value;
+    }
 
     get text(): string {
         return this._text;
