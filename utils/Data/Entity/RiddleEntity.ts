@@ -1,9 +1,12 @@
+import {RiddleAnswer} from "@/utils/Types";
+
 export class RiddleEntity {
     private _id: string = '';
     private _text: string = '';
     private _pictureId: string|null = null;
     private _answers: string[] = [];
     private _correctAnswerId: number = -1;
+    private _answerStatus: RiddleAnswer = 'pending'
 
     get id(): string {
         return this._id;
@@ -43,6 +46,14 @@ export class RiddleEntity {
 
     set correctAnswerId(value: number) {
         this._correctAnswerId = value;
+    }
+
+    get answerStatus(): RiddleAnswer {
+        return this._answerStatus;
+    }
+
+    set answerStatus(value: RiddleAnswer) {
+        this._answerStatus = value;
     }
 }
 

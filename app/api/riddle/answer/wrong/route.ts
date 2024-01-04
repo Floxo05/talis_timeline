@@ -1,15 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
 import {RiddleDataService} from "@/utils/Data/RiddleDataService";
 
-const createRiddle = async (req: NextRequest) => {
-
-    const content = await req.formData();
+const wrongAnswer = async (req: NextRequest) => {
 
     const rds = new RiddleDataService();
-
-    await rds.createRiddle(content);
+    await rds.loadRiddle('84da0edc-fc12-4dca-9935-09e2cc521a36')
 
     return new NextResponse(JSON.stringify(''), {status: 200})
 };
 
-export {createRiddle as POST};
+export {wrongAnswer as GET};

@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import AuthService from "@/utils/Auth/AuthService";
 import {useRouter} from "next/navigation";
-import TimelineEntry from "@/components/TimelineEntryProps";
+import TimelineEntry from "@/components/TimelineEntry";
 
 const Timeline: React.FC = () => {
 

@@ -1,0 +1,1 @@
+export type RiddleAnswer = 'pending' | 'wrong' | 'right';

@@ -2,59 +2,79 @@
 // pages/Riddles.tsx
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
+import {RiddleAnswer} from "@/utils/Types";
+import {RiddleEntity} from "@/utils/Data/Entity/RiddleEntity";
 
 const Riddles: React.FC = () => {
     const router = useRouter();
 
-    const [riddleData, setRiddleData] = useState({
-        question: '',
-        options: [],
-        correctAnswer: '',
-        points: 0,
-    });
+    const [riddleData, setRiddleData] = useState<RiddleEntity|null>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Simulating an API request delay
-        const delay = setTimeout(() => {
-            // Fetch riddle data from your API endpoint
-            fetch('/api/riddle/get') // Updated API endpoint
-                .then((response) => response.json())
-                .then((data) => {
-                    setRiddleData(data);
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    console.error('Error fetching riddle data:', error);
-                    setLoading(false);
-                });
-        }, 0); // Simulating a 2-second delay
+    const [riddleAnswer, setRiddleAnswer] = useState<RiddleAnswer>('pending');
 
-        // Cleanup function to clear the timeout if the component unmounts
-        return () => clearTimeout(delay);
+    useEffect(() => {
+        fetch('/api/riddle/get') // Updated API endpoint
+            .then((response) => response.json())
+            .then((data) => {
+                setRiddleData(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error fetching riddle data:', error);
+                setLoading(false);
+            });
     }, []);
 
-    const handleAnswerSubmit = async (selectedOption: string) => {
-        // Check if the selected option is the correct answer
-        const isCorrect = selectedOption === riddleData.correctAnswer;
+    const handleAnswerSubmit = async (selectedOption: number) => {
+        if (!riddleData) {
+            return
+        }
+
+        const isCorrect = selectedOption === riddleData.correctAnswerId;
+        setRiddleAnswer(isCorrect ? 'right' : 'wrong')
 
         // If correct, add points to the main point count on the timeline page
         if (isCorrect) {
-            await fetch('/api/points/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    points: riddleData.points
-                })
-            });
-            router.push('/timeline');
+            await handleRightAnswer();
+        } else {
+
+        }
+    };
+
+    const handleRightAnswer = async () => {
+        if (!riddleData) {
+            return
         }
 
-        // You can close the riddle flyout or redirect to the timeline page
-        // (implementation depends on your design)
-    };
+        await fetch('/api/points/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                points: riddleData.correctAnswerId
+            })
+        });
+    }
+
+    const handleWrongAnswer = async () => {
+        if (!riddleData) {
+            return
+        }
+
+        await fetch('/api/riddle/answer/wrong', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                points: riddleData.id
+            })
+        });
+    }
+
+    console.log(riddleData)
 
     return (
         <div className="text-center">
@@ -68,15 +88,34 @@ const Riddles: React.FC = () => {
             ) : (
                 // Display riddle data when it's available
                 <>
-                    <p className="text-lg mb-4">{riddleData.question}</p>
-                    <div>
-                        {riddleData.options.map((option, index) => (
-                            <button key={index} onClick={() => handleAnswerSubmit(option)}
-                                    className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">
-                                {option}
+                    {riddleAnswer === 'wrong' ? (
+                        <div className={"mt-4"}>
+                            <p className={"mb-4"}>Leider falsch! 😢</p>
+                            <button className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">
+                                Neues Rätsel
                             </button>
-                        ))}
-                    </div>
+                            <button className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">
+                                Zurück zur Timeline
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            {/*<p className="text-lg mb-4">{riddleData.text}</p>*/}
+                            {/*<div>*/}
+                            {/*    {riddleData.answers.map((option, index) => (*/}
+                            {/*        <button key={index} onClick={() => handleAnswerSubmit(index)}*/}
+                            {/*                className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">*/}
+                            {/*            {option}*/}
+                            {/*        </button>*/}
+                            {/*    ))}*/}
+                            {/*</div>*/}
+                        </>
+                    )}
+
+                    {riddleAnswer === 'right' && (
+                        <>
+                        </>
+                    )}
                 </>
             )}
         </div>

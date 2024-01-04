@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 
-interface TimelineEntryProps {
+interface TimelineEntry {
     date: string;
     text: string;
     picture: string;
 }
 
-const TimelineEntry: React.FC<TimelineEntryProps> = ({ date, text, picture }) => {
+const TimelineEntry: React.FC<TimelineEntry> = ({ date, text, picture }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => {
