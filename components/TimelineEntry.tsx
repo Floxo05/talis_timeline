@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 
 interface TimelineEntry {
-    date: string;
-    text: string;
-    picture: string;
+    date: string,
+    text: string,
+    picture: string,
 }
 
 const TimelineEntry: React.FC<TimelineEntry> = ({ date, text, picture }) => {

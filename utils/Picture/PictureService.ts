@@ -35,9 +35,6 @@ export class PictureService {
 
         const fileName = files.find((file) => file.startsWith(id));
 
-        console.log(files)
-        console.log(id)
-
         return fileName ? this.getPublicPath(fileName) : '';
     }
 

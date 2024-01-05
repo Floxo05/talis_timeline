@@ -44,7 +44,6 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
 
     async saveRiddle() {
         const riddles = await this.getData();
-
         riddles[this._riddle.id] = this._riddle;
 
         await this.setData(riddles);
@@ -52,11 +51,9 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
 
     async loadRiddle(id: string) {
         const riddles = await this.getData();
+        const r: RiddleEntityInterface = riddles[id]
+        this._riddle = r;
 
-        console.log(riddles[id])
-
-        this._riddle = riddles[id];
-        console.log(this._riddle)
     }
 
     get riddle(): RiddleEntityInterface {

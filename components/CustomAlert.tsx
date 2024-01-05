@@ -1,9 +1,9 @@
 import React from 'react';
 
 interface FancyAlertProps {
-    show: boolean;
-    message: string;
-    onCloseMethod: () => void;
+    show: boolean,
+    message: string,
+    onCloseMethod: () => void,
 }
 
 const CustomAlert: React.FC<FancyAlertProps> = ({show, message, onCloseMethod}) => {

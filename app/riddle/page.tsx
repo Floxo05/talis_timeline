@@ -6,6 +6,9 @@ import {RiddleAnswer} from "@/utils/Types";
 import {RiddleEntityInterface} from "@/utils/Data/Entity/RiddleEntity";
 import Image from "next/image";
 import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/riddle/picture/get-path/route";
+import RiddleFeedback from "@/components/RiddleFeedback";
+import {RightAnwserRequest} from "@/app/api/riddle/answer/right/route";
+import {WrongAnswerRequest} from "@/app/api/riddle/answer/wrong/route";
 
 const Riddles: React.FC = () => {
     const router = useRouter();
@@ -17,16 +20,7 @@ const Riddles: React.FC = () => {
     const [picturePath, setPicturePath] = useState('')
 
     useEffect(() => {
-        fetch('/api/riddle/get') // Updated API endpoint
-            .then((response) => response.json())
-            .then((data: RiddleEntityInterface) => {
-                setRiddleData(data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error fetching riddle data:', error);
-                setLoading(false);
-            });
+        getNewRiddle();
     }, []);
 
     useEffect(() => {
@@ -50,6 +44,24 @@ const Riddles: React.FC = () => {
             .then((data: GetPicturePathResponse) => setPicturePath(data.path))
     }, [riddleData]);
 
+    const getNewRiddle = () => {
+        setLoading(true);
+        setRiddleAnswer('pending');
+        setPicturePath('');
+
+        fetch('/api/riddle/get') // Updated API endpoint
+            .then((response) => response.json())
+            .then((data: RiddleEntityInterface) => {
+                setRiddleData(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error fetching riddle data:', error);
+                setRiddleData(null)
+                setLoading(false);
+            });
+    }
+
     const handleAnswerSubmit = async (selectedOption: number) => {
         if (!riddleData) {
             return
@@ -62,7 +74,7 @@ const Riddles: React.FC = () => {
         if (isCorrect) {
             await handleRightAnswer();
         } else {
-
+            await handleWrongAnswer();
         }
     };
 
@@ -80,6 +92,18 @@ const Riddles: React.FC = () => {
                 points: riddleData.correctAnswerId
             })
         });
+
+        const data: RightAnwserRequest = {
+            id: riddleData.id
+        }
+
+        await fetch('/api/riddle/answer/right', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
     }
 
     const handleWrongAnswer = async () => {
@@ -87,15 +111,21 @@ const Riddles: React.FC = () => {
             return
         }
 
+        const data: WrongAnswerRequest = {
+            id: riddleData.id
+        }
+
         await fetch('/api/riddle/answer/wrong', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                points: riddleData.id
-            })
+            body: JSON.stringify(data)
         });
+    }
+
+    const handleNewRiddle = () => {
+        getNewRiddle()
     }
 
 
@@ -110,18 +140,12 @@ const Riddles: React.FC = () => {
             ) : (
                 <>
                     {riddleAnswer === 'wrong' ? (
-                        <div className={"mt-4"}>
-                            <p className={"mb-4"}>Leider falsch! 😢</p>
-                            <button className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">
-                                Neues Rätsel
-                            </button>
-                            <button className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">
-                                Zurück zur Timeline
-                            </button>
-                        </div>
+                        <RiddleFeedback newRiddle={handleNewRiddle} text={'Leider falsch! 😢'}/>
+                    ) : riddleAnswer === 'right' ? (
+                        <RiddleFeedback newRiddle={handleNewRiddle} text={'Das ist korrekt! 👍'}/>
                     ) : (
                         <>
-                            {riddleData && (
+                            {riddleData ? (
                                 <>
                                     <p className="text-lg mb-4">{riddleData.text}</p>
                                     <Image src={picturePath} alt={'Riddle picture'} width={300} height={100}
@@ -135,12 +159,9 @@ const Riddles: React.FC = () => {
                                         ))}
                                     </div>
                                 </>
+                            ) : (
+                                <RiddleFeedback newRiddle={() => {}} text={'Glückwunsch 🥳, du hast alle Rätsel gelöst'} isCompleted={true} />
                             )}
-                        </>
-                    )}
-
-                    {riddleAnswer === 'right' && (
-                        <>
                         </>
                     )}
                 </>
