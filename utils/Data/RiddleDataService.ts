@@ -10,8 +10,8 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
     private pictureService: PictureService;
     private _riddle: RiddleEntity = new RiddleEntity();
     constructor() {
-        super('database/riddle.json');
-        this.pictureService = new PictureService('pictures/riddle/');
+        super('public/database/riddle.json');
+        this.pictureService = new PictureService('public/pictures/riddle/');
     }
 
     async createRiddle(formData: FormData) {

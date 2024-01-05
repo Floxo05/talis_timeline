@@ -5,7 +5,7 @@ export type PointsData = Record<string, number>;
 export class PointDataService extends BaseDataService<PointsData> {
     private readonly _key: string;
     constructor() {
-        super('database/points.json');
+        super('public/database/points.json');
         this._key = 'points'
     }
 
