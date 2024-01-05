@@ -15,7 +15,7 @@ const CustomAlert: React.FC<FancyAlertProps> = ({show, message, onCloseMethod}) 
                     <p className="m-0 text-g">{message}</p>
                     <button
                         onClick={onCloseMethod}
-                        className="bg-blue-500 text-white border-none px-4 py-2 mt-4 rounded cursor-pointer hover:bg-green-600"
+                        className="bg-blue-500 text-white border-none px-4 py-2 mt-4 rounded cursor-pointer hover:bg-blue-600"
                     >
                         Schließen
                     </button>
