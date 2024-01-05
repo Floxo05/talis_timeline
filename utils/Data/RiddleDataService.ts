@@ -1,6 +1,6 @@
 import {BaseDataService} from "@/utils/Data/BaseDataService";
 import {PictureService} from "@/utils/Picture/PictureService";
-import {RiddleEntity} from "@/utils/Data/Entity/RiddleEntity";
+import {RiddleEntity, RiddleEntityInterface} from "@/utils/Data/Entity/RiddleEntity";
 import * as crypto from "crypto";
 
 export type RiddleData = Record<string, object>;
@@ -59,8 +59,7 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
         console.log(this._riddle)
     }
 
-
-    get riddle(): RiddleEntity {
+    get riddle(): RiddleEntityInterface {
         return this._riddle;
     }
 
@@ -75,7 +74,7 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
             }
         })
 
-        const randomIndex = Math.floor(Math.random() * pendingRiddles.length) + 1
+        const randomIndex = Math.floor(Math.random() * pendingRiddles.length);
 
         this._riddle = pendingRiddles[randomIndex];
     }

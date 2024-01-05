@@ -30,12 +30,30 @@ export class PictureService {
         return filename.substring(filename.lastIndexOf("."));
     }
 
+    getPath(id: string) {
+        const files = fs.readdirSync(this.filePath);
+
+        const fileName = files.find((file) => file.startsWith(id));
+
+        console.log(files)
+        console.log(id)
+
+        return fileName ? this.getPublicPath(fileName) : '';
+    }
+
     private async savePictureToFs(image: File) {
         const imageBuffer = await image.arrayBuffer();
-        await fs.writeFile(this.picture.path, Buffer.from(imageBuffer), (err) => {
+        fs.writeFile(this.picture.path, Buffer.from(imageBuffer), (err) => {
             if (err) {
                 console.log(err)
             }
         })
+    }
+
+    private getPublicPath(fileName: string) {
+        let parts = this.filePath.split('/');
+        parts = parts.slice(1);
+
+        return '/' + parts.join('/') + fileName;
     }
 }

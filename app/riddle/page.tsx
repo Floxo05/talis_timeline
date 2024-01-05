@@ -3,20 +3,23 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {RiddleAnswer} from "@/utils/Types";
-import {RiddleEntity} from "@/utils/Data/Entity/RiddleEntity";
+import {RiddleEntityInterface} from "@/utils/Data/Entity/RiddleEntity";
+import Image from "next/image";
+import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/riddle/picture/get-path/route";
 
 const Riddles: React.FC = () => {
     const router = useRouter();
 
-    const [riddleData, setRiddleData] = useState<RiddleEntity|null>(null);
+    const [riddleData, setRiddleData] = useState<RiddleEntityInterface | null>(null);
     const [loading, setLoading] = useState(true);
 
     const [riddleAnswer, setRiddleAnswer] = useState<RiddleAnswer>('pending');
+    const [picturePath, setPicturePath] = useState('')
 
     useEffect(() => {
         fetch('/api/riddle/get') // Updated API endpoint
             .then((response) => response.json())
-            .then((data) => {
+            .then((data: RiddleEntityInterface) => {
                 setRiddleData(data);
                 setLoading(false);
             })
@@ -25,6 +28,27 @@ const Riddles: React.FC = () => {
                 setLoading(false);
             });
     }, []);
+
+    useEffect(() => {
+
+        if (!riddleData || !riddleData.pictureId) {
+            return;
+        }
+
+        const data: GetPicturePathRequest = {
+            id: riddleData.pictureId
+        }
+
+        fetch('/api/riddle/picture/get-path/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then((res) => res.json())
+            .then((data: GetPicturePathResponse) => setPicturePath(data.path))
+    }, [riddleData]);
 
     const handleAnswerSubmit = async (selectedOption: number) => {
         if (!riddleData) {
@@ -74,19 +98,16 @@ const Riddles: React.FC = () => {
         });
     }
 
-    console.log(riddleData)
 
     return (
         <div className="text-center">
             <h1 className="text-4xl font-bold mb-2">Riddle Page</h1>
 
             {loading ? (
-                // Display a loading spinner while fetching data
                 <div className="flex items-center justify-center h-24">
                     <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500"></div>
                 </div>
             ) : (
-                // Display riddle data when it's available
                 <>
                     {riddleAnswer === 'wrong' ? (
                         <div className={"mt-4"}>
@@ -100,15 +121,21 @@ const Riddles: React.FC = () => {
                         </div>
                     ) : (
                         <>
-                            {/*<p className="text-lg mb-4">{riddleData.text}</p>*/}
-                            {/*<div>*/}
-                            {/*    {riddleData.answers.map((option, index) => (*/}
-                            {/*        <button key={index} onClick={() => handleAnswerSubmit(index)}*/}
-                            {/*                className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">*/}
-                            {/*            {option}*/}
-                            {/*        </button>*/}
-                            {/*    ))}*/}
-                            {/*</div>*/}
+                            {riddleData && (
+                                <>
+                                    <p className="text-lg mb-4">{riddleData.text}</p>
+                                    <Image src={picturePath} alt={'Riddle picture'} width={300} height={100}
+                                           className={'p-4'}/>
+                                    <div>
+                                        {riddleData.answers.map((option, index) => (
+                                            <button key={index} onClick={() => handleAnswerSubmit(index)}
+                                                    className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2">
+                                                {option}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                         </>
                     )}
 
