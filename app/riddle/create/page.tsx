@@ -1,14 +1,15 @@
 "use client";
 import React, {useState} from "react";
+import CustomAlert from "@/components/CustomAlert";
 
 const RiddleCreate: React.FC = () => {
     const [text, setText] = useState('');
     const [answers, setAnswers] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState<File | null>(null);
+    const [showMessage, setShowMessage] = useState<boolean>(false)
 
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
         // Check if fields are not empty
@@ -36,16 +37,37 @@ const RiddleCreate: React.FC = () => {
             body: formData
         });
 
+        if (response.ok) {
+            setShowMessage(true);
+            resetForm()
+        }
+
     }
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
+    const resetForm = () => {
+        setText('');
+        setCorrectAnswer('')
+        setAnswers(['', '', '', '']);
+        setImage(null);
+    }
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        const files = event.target.files;
+        if (!files) {
+            return
+        }
+
+        const file: File = files[0];
         setImage(file);
     };
 
     return (
         <div className="text-center">
             <h1 className="text-4xl font-bold mb-2">Create Riddle</h1>
+            <CustomAlert show={showMessage} message={'Riddle erstellt'} onCloseMethod={() => {
+                setShowMessage(false)
+            }}/>
             <form onSubmit={handleSubmit}>
                 <label className="block mb-2">
                     Text:
