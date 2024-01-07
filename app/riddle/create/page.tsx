@@ -9,7 +9,7 @@ const RiddleCreate: React.FC = () => {
     const [image, setImage] = useState<File | null>(null);
     const [showMessage, setShowMessage] = useState<boolean>(false)
 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         // Check if fields are not empty
