@@ -10,9 +10,16 @@ import RiddleFeedback from "@/components/RiddleFeedback";
 import {RightAnwserRequest} from "@/app/api/riddle/answer/right/route";
 import {WrongAnswerRequest} from "@/app/api/riddle/answer/wrong/route";
 import LoadingCircle from "@/components/LoadingCircle";
+import AuthService from "@/utils/Auth/AuthService";
 
 const Riddles: React.FC = () => {
-    const router = useRouter();
+    const router = useRouter()
+
+    // Check authentication status, redirect to home if not authenticated
+    if (!AuthService.isAuthenticated()) {
+        router.push('/');
+        return null;
+    }
 
     const [riddleData, setRiddleData] = useState<RiddleEntityInterface | null>(null);
     const [loading, setLoading] = useState(true);

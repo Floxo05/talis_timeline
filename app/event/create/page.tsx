@@ -1,8 +1,18 @@
 "use client"
 import React, {useState} from "react";
 import CustomAlert from "@/components/CustomAlert";
+import {useRouter} from "next/navigation";
+import AuthService from "@/utils/Auth/AuthService";
 
 const EventCreate: React.FC = () => {
+
+    const router = useRouter()
+
+    // Check authentication status, redirect to home if not authenticated
+    if (!AuthService.isAdmin()) {
+        router.push('/');
+        return null;
+    }
 
     const [text, setText] = useState('');
     const [date, setDate] = useState('');

@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {useRouter} from "next/navigation";
 import AuthService from "@/utils/Auth/AuthService";
+import {PASSWORD_ADMIN, PASSWORD_USER} from "@/password";
 
 const Home: React.FC = () => {
     const [password, setPassword] = useState('');
@@ -9,10 +10,15 @@ const Home: React.FC = () => {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newPassword = e.target.value;
 
-        // Assuming 'your_password' is the correct password
-        if (newPassword === 'tali') {
+        if (newPassword === PASSWORD_USER) {
             // Navigate to the next page
             AuthService.setAuthenticated()
+            router.push('/timeline')
+        }
+
+        if (newPassword === PASSWORD_ADMIN) {
+            // Navigate to the next page
+            AuthService.setAuthenticated('admin')
             router.push('/timeline')
         }
 

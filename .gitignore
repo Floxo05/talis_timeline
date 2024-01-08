@@ -38,3 +38,4 @@ next-env.d.ts
 # custom
 public/pictures
 public/database
+password.js
