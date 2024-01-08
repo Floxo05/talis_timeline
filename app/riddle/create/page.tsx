@@ -16,6 +16,7 @@ const RiddleCreate: React.FC = () => {
     const [text, setText] = useState('');
     const [answers, setAnswers] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
+    const [points, setPoints] = useState('0');
     const [image, setImage] = useState<File | null>(null);
     const [showMessage, setShowMessage] = useState<boolean>(false)
 
@@ -37,6 +38,7 @@ const RiddleCreate: React.FC = () => {
         formData.append('text', text);
         formData.append('correctAnswer', correctAnswer);
         formData.append('image', image);
+        formData.append('points', points)
         // Add answers to form data
         answers.forEach((answer, index) => {
             formData.append(`answer${index + 1}`, answer);
@@ -59,6 +61,7 @@ const RiddleCreate: React.FC = () => {
         setCorrectAnswer('')
         setAnswers(['', '', '', '']);
         setImage(null);
+        setPoints('0');
     }
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,6 +85,11 @@ const RiddleCreate: React.FC = () => {
                 <label className="block mb-2">
                     Text:
                     <input type="text" value={text} onChange={(e) => setText(e.target.value)}
+                           className="w-full px-3 py-2 border rounded-md text-black"/>
+                </label>
+                <label className="block mb-2">
+                    Punkte:
+                    <input type="number" value={points} onChange={(e) => setPoints(e.target.value)}
                            className="w-full px-3 py-2 border rounded-md text-black"/>
                 </label>
                 <label className="block mb-2">

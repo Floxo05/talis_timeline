@@ -18,7 +18,8 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
         this._riddle.id = crypto.randomUUID();
         this._riddle.pictureId = await this.pictureService.savePicture(formData.get('image'));
 
-        this._riddle.text = this.getStringFromFormdata(formData, 'text')
+        this._riddle.text = this.getStringFromFormdata(formData, 'text');
+        this._riddle.points = this.getNumberFromFormdata(formData, 'points')
 
         this._riddle.answers = [
             this.getStringFromFormdata(formData, 'answer1'),
@@ -39,6 +40,15 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
         }
 
         return '';
+    }
+
+    private getNumberFromFormdata(data: FormData, key: string) {
+        const value = data.get(key);
+        if (typeof value === "string") {
+            return parseInt(value);
+        }
+
+        return 0;
     }
 
 

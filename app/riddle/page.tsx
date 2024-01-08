@@ -97,7 +97,7 @@ const Riddles: React.FC = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                points: riddleData.correctAnswerId
+                points: riddleData.points
             })
         });
 
@@ -140,7 +140,6 @@ const Riddles: React.FC = () => {
     return (
         <div className="text-center">
             <h1 className="text-4xl font-bold mb-2">Riddle Page</h1>
-
             {loading ? (
                 <LoadingCircle />
             ) : (
@@ -154,6 +153,7 @@ const Riddles: React.FC = () => {
                             {riddleData ? (
                                 <>
                                     <p className="text-lg mb-4">{riddleData.text}</p>
+                                    <p className="mb-4">Punkte: {riddleData.points}</p>
                                     <Image src={picturePath} alt={'Riddle picture'} width={300} height={100}
                                            className={'p-4'}/>
                                     <div>

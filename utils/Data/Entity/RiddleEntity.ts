@@ -7,6 +7,7 @@ export interface RiddleEntityInterface {
     answers: string[];
     correctAnswerId: number;
     answerStatus: RiddleAnswer;
+    points: number
 }
 
 export class RiddleEntity implements RiddleEntityInterface {
@@ -16,6 +17,6 @@ export class RiddleEntity implements RiddleEntityInterface {
     id: string = '';
     pictureId: string | null = null;
     text: string = '';
-
+    points: number = 0;
 }
 
