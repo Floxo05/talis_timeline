@@ -1,11 +1,14 @@
 "use client"
 import React, {useState} from "react";
+import CustomAlert from "@/components/CustomAlert";
 
 const EventCreate: React.FC = () => {
 
     const [text, setText] = useState('');
     const [date, setDate] = useState('');
     const [image, setImage] = useState<File|null>(null)
+    const [showMessage, setShowMessage] = useState<boolean>(false)
+
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
@@ -24,6 +27,17 @@ const EventCreate: React.FC = () => {
             method: 'POST',
             body: formData
         });
+
+        if (response.ok) {
+            setShowMessage(true);
+            clearForm();
+        }
+    }
+
+    function clearForm() {
+        setText('');
+        setImage(null);
+        setDate('');
     }
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +54,9 @@ const EventCreate: React.FC = () => {
     return (
         <div className="text-center">
             <h1 className="text-4xl font-bold mb-2">Create Event</h1>
-
+            <CustomAlert show={showMessage} message={'Event erstellt'} onCloseMethod={() => {
+                setShowMessage(false)
+            }}/>
             <form onSubmit={handleSubmit}>
                 <label className="block mb-2">
                     Text:

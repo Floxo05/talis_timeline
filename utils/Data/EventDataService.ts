@@ -5,6 +5,8 @@ import {EventEntity, EventEntityInterface} from "@/utils/Data/Entity/EventEntity
 
 export type EventData = Record<string, object>;
 
+const pointsPerEvent = 5;
+
 export class EventDataService extends BaseDataService<EventData> {
 
     private pictureService: PictureService;
@@ -53,7 +55,19 @@ export class EventDataService extends BaseDataService<EventData> {
         return this._event;
     }
 
-    async loadRandomRiddle() {
+    static async getReachedEvents(points: number) {
+        const eds = new EventDataService();
 
+        const jsonObject: object = await eds.getData();
+
+        const events: EventEntityInterface[] = Object.values(jsonObject);
+        events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        let eventCount = Math.floor(points / pointsPerEvent);
+
+        if (eventCount > events.length) {
+            eventCount = events.length;
+        }
+
+        return events.slice(0, eventCount);
     }
 }

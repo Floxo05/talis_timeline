@@ -4,67 +4,53 @@ import React, {useEffect, useState} from "react";
 import AuthService from "@/utils/Auth/AuthService";
 import {useRouter} from "next/navigation";
 import TimelineEntry from "@/components/TimelineEntry";
+import {GetReachedEventsRequest, GetReachedEventsResponse} from "@/app/api/event/reached-events/get/route";
+import {EventEntityInterface} from "@/utils/Data/Entity/EventEntity";
+import LoadingCircle from "@/components/LoadingCircle";
+import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/riddle/picture/get-path/route";
 
 const Timeline: React.FC = () => {
 
     const router = useRouter()
 
     // Check authentication status, redirect to home if not authenticated
-    if ( !AuthService.isAuthenticated()) {
+    if (!AuthService.isAuthenticated()) {
         router.push('/');
         return null;
     }
 
-    // const [timelineData, setTimelineData] = useState([]);
-    //
-    // useEffect(() => {
-    //     // Replace 'your_api_endpoint' with the actual API endpoint for timeline data
-    //     fetch('your_api_endpoint')
-    //         .then((response) => response.json())
-    //         .then((data) => setTimelineData(data))
-    //         .catch((error) => console.error('Error fetching timeline data:', error));
-    // }, []);
-
-    const [timelineData, setTimelineData] = useState([
-        {
-            date: '2023-01-01',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            picture: 'https://placekitten.com/300/200', // Placeholder image URL
-        },
-        {
-            date: '2023-02-15',
-            text: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            picture: 'https://placekitten.com/300/201', // Placeholder image URL
-        },
-        {
-            date: '2023-04-05',
-            text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            picture: 'https://placekitten.com/301/200', // Placeholder image URL
-        },
-        {
-            date: '2023-04-05',
-            text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            picture: 'https://placekitten.com/301/200', // Placeholder image URL
-        },
-        {
-            date: '2023-04-05',
-            text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            picture: 'https://placekitten.com/301/200', // Placeholder image URL
-        },
-        {
-            date: '2023-04-05',
-            text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            picture: 'https://placekitten.com/301/200', // Placeholder image URL
-        },
-    ]);
-
+    const [timelineData, setTimelineData] = useState<EventEntityInterface[] | null>(null);
     const [points, setPoints] = useState(0);
 
     useEffect(() => {
         fetch('/api/points/get')
             .then((res) => res.json())
             .then((data) => setPoints(data.points))
-    }, [])
+    }, []);
+
+
+    useEffect(() => {
+        // Replace 'your_api_endpoint' with the actual API endpoint for timeline data
+        const dataRequest: GetReachedEventsRequest = {
+            points: points
+        }
+
+        fetch('/api/event/reached-events/get', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataRequest)
+        })
+            .then((response) => response.json())
+            .then((data: GetReachedEventsResponse) => {
+                setTimelineData(data.events);
+                console.log(data.events)
+            })
+            .catch((error) => console.error('Error fetching timeline data:', error));
+    }, [points]);
+
+
     const handleIncrementPoints = () => {
         router.push("riddle")
     };
@@ -78,11 +64,18 @@ const Timeline: React.FC = () => {
                     Add Point
                 </button>
             </div>
-            <div className="overflow-y-auto max-h-[70vh]">
-                {timelineData.map((entry, index) => (
-                    <TimelineEntry key={index} date={entry.date} text={entry.text} picture={entry.picture}/>
-                ))}
-            </div>
+
+            {timelineData ? (
+                <div className="overflow-y-auto max-h-[70vh]">
+                    {timelineData.map((entry, index) => (
+                        <TimelineEntry key={index} date={entry.date} text={entry.text} pictureId={entry.pictureId ?? ''}/>
+                    ))}
+                </div>
+            ) : (
+                <LoadingCircle/>
+            )}
+
+
         </div>
     );
 };

@@ -9,6 +9,7 @@ import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/riddle/pi
 import RiddleFeedback from "@/components/RiddleFeedback";
 import {RightAnwserRequest} from "@/app/api/riddle/answer/right/route";
 import {WrongAnswerRequest} from "@/app/api/riddle/answer/wrong/route";
+import LoadingCircle from "@/components/LoadingCircle";
 
 const Riddles: React.FC = () => {
     const router = useRouter();
@@ -134,9 +135,7 @@ const Riddles: React.FC = () => {
             <h1 className="text-4xl font-bold mb-2">Riddle Page</h1>
 
             {loading ? (
-                <div className="flex items-center justify-center h-24">
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500"></div>
-                </div>
+                <LoadingCircle />
             ) : (
                 <>
                     {riddleAnswer === 'wrong' ? (
