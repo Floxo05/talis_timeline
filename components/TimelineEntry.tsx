@@ -1,8 +1,7 @@
 "use client"
 
 import React, {useEffect, useState} from 'react';
-import {GetPicturePathResponse} from "@/app/api/riddle/picture/get-path/route";
-import {GetPicturePathRequest} from "@/app/api/event/picture/get-path/route";
+import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/event/picture/get-path/route";
 import Image from "next/image";
 import LoadingCircle from "@/components/LoadingCircle";
 
