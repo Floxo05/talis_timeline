@@ -11,7 +11,7 @@ export class PointDataService extends BaseDataService<PointsData> {
 
     public async incrementPoints(amount: number): Promise<void> {
         const currentPoints = await this.getData();
-        currentPoints[this._key] = (currentPoints[this._key] || 0) + amount;
+        currentPoints[this._key] = (currentPoints[this._key] || 0) + (amount || 0);
         await this.setData(currentPoints);
     }
 }

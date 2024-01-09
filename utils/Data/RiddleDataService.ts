@@ -42,10 +42,10 @@ export class RiddleDataService extends BaseDataService<RiddleData> {
         return '';
     }
 
-    private getNumberFromFormdata(data: FormData, key: string) {
+    private getNumberFromFormdata(data: FormData, key: string): number {
         const value = data.get(key);
         if (typeof value === "string") {
-            return parseInt(value);
+            return parseInt(value) ?? 0;
         }
 
         return 0;
