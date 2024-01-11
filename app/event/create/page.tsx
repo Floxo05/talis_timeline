@@ -23,7 +23,7 @@ const EventCreate: React.FC = () => {
         e.preventDefault();
 
         console.log(date)
-        if (text === '' || date === '' || !image) {
+        if (text === '' || date === '') {
             alert('Bitte alle Felder ausfüllen');
             return;
         }
@@ -31,7 +31,7 @@ const EventCreate: React.FC = () => {
         const formData = new FormData();
         formData.append('text', text);
         formData.append('date', date);
-        formData.append('image', image);
+        formData.append('image', image ?? '');
 
         const response = await fetch('/api/event/create', {
             method: 'POST',
