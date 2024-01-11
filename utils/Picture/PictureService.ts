@@ -14,7 +14,7 @@ export class PictureService {
 
     async savePicture(image: FormDataEntryValue | null, ) {
         if (!(image instanceof File)) {
-            throw new Error('Image is not a file')
+            return '-1';
         }
 
         this.picture.id = crypto.randomUUID();

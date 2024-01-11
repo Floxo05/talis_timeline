@@ -154,8 +154,10 @@ const Riddles: React.FC = () => {
                                 <>
                                     <p className="text-lg mb-4">{riddleData.text}</p>
                                     <p className="mb-4">Punkte: {riddleData.points}</p>
-                                    <Image src={picturePath} alt={'Riddle picture'} width={300} height={100}
-                                           className={'p-4'}/>
+                                    {picturePath !== '' && (
+                                        <Image src={picturePath} alt={'Riddle picture'} width={300} height={100}
+                                               className={'p-4'}/>
+                                    )}
                                     <div>
                                         {riddleData.answers.map((option, index) => (
                                             <button key={index} onClick={() => handleAnswerSubmit(index)}

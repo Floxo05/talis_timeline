@@ -24,7 +24,7 @@ const RiddleCreate: React.FC = () => {
         e.preventDefault();
 
         // Check if fields are not empty
-        if (!text || answers.some(answer => answer === '') || !image) {
+        if (!text || answers.some(answer => answer === '')) {
             alert('Bitte füllen Sie alle Felder aus.');
             return;
         }
@@ -37,7 +37,7 @@ const RiddleCreate: React.FC = () => {
         const formData = new FormData();
         formData.append('text', text);
         formData.append('correctAnswer', correctAnswer);
-        formData.append('image', image);
+        formData.append('image', image ?? '');
         formData.append('points', points)
         // Add answers to form data
         answers.forEach((answer, index) => {
