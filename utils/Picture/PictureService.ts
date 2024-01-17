@@ -22,7 +22,7 @@ export class PictureService {
 
         await this.savePictureToFs(image)
 
-        return this.picture.id;
+        return this.picture.path;
     }
 
     private getFileType(image: File) {

@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {RiddleDataService} from "@/utils/Data/RiddleDataService";
 
 export type RightAnwserRequest = {
-    id: string
+    id: number
 }
 const rightAnswer = async (req: NextRequest) => {
 

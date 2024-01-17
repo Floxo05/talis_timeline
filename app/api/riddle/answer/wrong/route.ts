@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {RiddleDataService} from "@/utils/Data/RiddleDataService";
 
 export type WrongAnswerRequest = {
-    id: string
+    id: number
 }
 const wrongAnswer = async (req: NextRequest) => {
 

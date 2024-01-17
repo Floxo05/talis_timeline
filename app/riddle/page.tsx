@@ -34,12 +34,12 @@ const Riddles: React.FC = () => {
 
     useEffect(() => {
 
-        if (!riddleData || !riddleData.pictureId) {
+        if (!riddleData || !riddleData.picturePath) {
             return;
         }
 
         const data: GetPicturePathRequest = {
-            id: riddleData.pictureId
+            id: riddleData.picturePath
         }
 
         fetch('/api/riddle/picture/get-path/', {

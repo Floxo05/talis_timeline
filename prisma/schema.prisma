@@ -1,0 +1,28 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Event {
+  id         Int      @id @default(autoincrement())
+  title      String
+  image_path String?
+  date       DateTime
+}
+
+model Riddle {
+  id            Int     @id @default(autoincrement())
+  title         String
+  score         Int
+  question1     String
+  question2     String
+  question3     String
+  question4     String
+  correctAnswer Int
+  image_path    String?
+  answer_status String
+}

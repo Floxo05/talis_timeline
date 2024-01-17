@@ -1,9 +1,9 @@
 import {RiddleAnswer} from "@/utils/Types";
 
 export interface RiddleEntityInterface {
-    id: string;
+    id: number;
     text: string;
-    pictureId: string | null;
+    picturePath: string | null;
     answers: string[];
     correctAnswerId: number;
     answerStatus: RiddleAnswer;
@@ -14,8 +14,8 @@ export class RiddleEntity implements RiddleEntityInterface {
     answerStatus: RiddleAnswer = 'pending';
     answers: string[] = ['', '', '', ''];
     correctAnswerId: number = -1;
-    id: string = '';
-    pictureId: string | null = null;
+    id: number = -1;
+    picturePath: string | null = null;
     text: string = '';
     points: number = 0;
 }

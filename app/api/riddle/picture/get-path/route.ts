@@ -13,7 +13,7 @@ const getPicturePath = async (req: NextRequest) => {
 
     const picturePathRequest: GetPicturePathRequest = await req.json();
 
-    const ps = new PictureService('public/pictures/riddle/');
+    const ps = new PictureService('pictures/riddle/');
     const path = ps.getPath(picturePathRequest.id);
 
     return new NextResponse(JSON.stringify({path: path}), {status: 200})
