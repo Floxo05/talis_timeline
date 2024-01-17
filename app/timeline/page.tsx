@@ -7,17 +7,17 @@ import TimelineEntry from "@/components/TimelineEntry";
 import {GetReachedEventsRequest, GetReachedEventsResponse} from "@/app/api/event/reached-events/get/route";
 import {EventEntityInterface} from "@/utils/Data/Entity/EventEntity";
 import LoadingCircle from "@/components/LoadingCircle";
-import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/riddle/picture/get-path/route";
 
 const Timeline: React.FC = () => {
 
     const router = useRouter()
 
     // Check authentication status, redirect to home if not authenticated
-    if (!AuthService.isAuthenticated()) {
-        router.push('/');
-        return null;
-    }
+    useEffect(() => {
+        if (!AuthService.isAuthenticated()) {
+            router.push('/');
+        }
+    }, [router]);
 
     const [timelineData, setTimelineData] = useState<EventEntityInterface[] | null>(null);
     const [points, setPoints] = useState(0);

@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CustomAlert from "@/components/CustomAlert";
 import {useRouter} from "next/navigation";
 import AuthService from "@/utils/Auth/AuthService";
@@ -8,10 +8,11 @@ const RiddleCreate: React.FC = () => {
     const router = useRouter()
 
     // Check authentication status, redirect to home if not authenticated
-    if (!AuthService.isAdmin()) {
-        router.push('/');
-        return null;
-    }
+    useEffect(() => {
+        if (!AuthService.isAdmin()) {
+            router.push('/');
+        }
+    }, [router]);
 
     const [text, setText] = useState('');
     const [answers, setAnswers] = useState(['', '', '', '']);

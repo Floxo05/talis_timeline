@@ -16,10 +16,11 @@ const Riddles: React.FC = () => {
     const router = useRouter()
 
     // Check authentication status, redirect to home if not authenticated
-    if (!AuthService.isAuthenticated()) {
-        router.push('/');
-        return null;
-    }
+    useEffect(() => {
+        if (!AuthService.isAuthenticated()) {
+            router.push('/');
+        }
+    }, [router]);
 
     const [riddleData, setRiddleData] = useState<RiddleEntityInterface | null>(null);
     const [loading, setLoading] = useState(true);
