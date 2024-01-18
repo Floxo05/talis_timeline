@@ -27,15 +27,14 @@ const HelpFlayout = () => {
                         ich wünsche dir alles alles Gute zum Geburtstag 🥳!
                     </p>
                     <p>
-                        20 Jahre und du hast schon so viel erreicht. Wie du durch dein Studium rennst ist selbst nach
-                        der langen Zeit immer noch nicht so ganz greifbar für mich. WTF, du bist einfach vor mir fertig
+                        20 Jahre und du hast schon so viel erreicht. Wie du durch dein Studium rennst, ist selbst nach
+                        der langen Zeit immer noch nicht so ganz greifbar für mich. WTF, du bist einfach vor mir fertig,
                         obwohl du nach mir angefangen hast 😂.
                     </p>
                     <br/>
                     <p>
                         Diese Zeit beinhaltet auch viele Momente, die wir schon zusammen erleben konnten. Deswegen habe
-                        ich nur für DICH diese Webseite erstellt! Du kannst
-                        du auf dieser Seite alle unsere Erlebnisse nochmal erleben!
+                        ich nur für DICH diese Webseite erstellt! Hier kannst du unsere letzten Jahre nochmal erleben!
                     </p>
                     <p>
                         Doch so einfach mache ich es dir nicht. Du musst jetzt zeigen, was du während deines Studiums
@@ -46,7 +45,7 @@ const HelpFlayout = () => {
                         Du musst ein Passwort eingeben, um die Anwendung zu starten!
                     </p>
                     <p>
-                        In dem Programm kannst du Punkte sammeln, in dem du Rätsel löst. Diese kommen aus den
+                        In dem Programm kannst du Punkte sammeln, indem du Rätsel löst. Diese kommen aus den
                         verschiedensten Bereichen aus deinem Studium (also eig. aus meinem, aber ich hoffe, du kannst
                         alle beantworten 😂).
                     </p>

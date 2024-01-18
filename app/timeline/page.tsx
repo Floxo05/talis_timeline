@@ -25,7 +25,11 @@ const Timeline: React.FC = () => {
     useEffect(() => {
         fetch('/api/points/get')
             .then((res) => res.json())
-            .then((data) => setPoints(data.points))
+            .then((data) => {
+                setPoints(data.points)
+                console.log(data)
+            })
+            .catch((error) => console.log(error));
     }, []);
 
 

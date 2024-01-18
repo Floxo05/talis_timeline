@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {RiddleAnswer} from "@/utils/Types";
 import {RiddleEntityInterface} from "@/utils/Data/Entity/RiddleEntity";
-import Image, {ImageLoaderProps} from "next/image";
+import Image from "next/image";
 import RiddleFeedback from "@/components/RiddleFeedback";
 import {RightAnwserRequest} from "@/app/api/riddle/answer/right/route";
 import {WrongAnswerRequest} from "@/app/api/riddle/answer/wrong/route";
@@ -106,10 +106,6 @@ const Riddles: React.FC = () => {
 
     const handleNewRiddle = () => {
         getNewRiddle()
-    }
-
-    const imageLoader = ({src, width, quality}: ImageLoaderProps) => {
-        return `http://localhost:3000/${src}?w=${width}&q=${quality || 75}`
     }
 
     return (
