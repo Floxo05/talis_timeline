@@ -8,10 +8,10 @@ generator client {
 }
 
 model Event {
-  id         Int      @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   title      String
   image_path String?
-  date       DateTime
+  date       String
 }
 
 model Riddle {

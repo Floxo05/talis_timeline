@@ -1,19 +1,16 @@
 "use client"
 
-import React, {useEffect, useState} from 'react';
-import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/event/picture/get-path/route";
+import React, {useState} from 'react';
 import Image from "next/image";
-import LoadingCircle from "@/components/LoadingCircle";
 
 interface TimelineEntry {
     date: string,
     text: string,
-    pictureId: string,
+    picturePath: string,
 }
 
-const TimelineEntry: React.FC<TimelineEntry> = ({ date, text, pictureId }) => {
+const TimelineEntry: React.FC<TimelineEntry> = ({date, text, picturePath}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [picturePath, setPicturePath] = useState('')
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -31,28 +28,6 @@ const TimelineEntry: React.FC<TimelineEntry> = ({ date, text, pictureId }) => {
     };
     const dateObject = new Date(date);
     const dateReadable = `${dateObject.getDate()}.${dateObject.getMonth() + 1}.${dateObject.getFullYear()}`
-
-    useEffect(() => {
-
-        if (pictureId === '') {
-            console.error('Bildid missing');
-            return;
-        }
-
-        const data: GetPicturePathRequest = {
-            id: pictureId
-        }
-
-        fetch('/api/event/picture/get-path/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then((res) => res.json())
-            .then((data: GetPicturePathResponse) => setPicturePath(data.path))
-    }, []);
 
     return (
         <>

@@ -81,23 +81,21 @@ export class RiddleDataService {
                 data: data
             })
             this._riddle.id = riddle.id;
-        } else {
-            await prisma.riddle.update({
-                data: data,
-                where: {
-                    id: this._riddle.id
-                }
-            })
+            return;
         }
 
-        prisma.$disconnect();
+        await prisma.riddle.update({
+            data: data,
+            where: {
+                id: this._riddle.id
+            }
+        })
     }
 
-    async loadRiddle(id: number, where: object = {}) {
+    async loadRiddle(id: number) {
         const riddle: DatasetRiddle | null = await prisma.riddle.findUnique({
             where: {
-                id: id,
-                ...where
+                id: id
             }
         })
 
@@ -106,8 +104,6 @@ export class RiddleDataService {
         }
 
         this.convertDatasetToLokal(riddle);
-
-        prisma.$disconnect();
     }
 
     get riddle(): RiddleEntityInterface {

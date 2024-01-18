@@ -1,15 +1,15 @@
 // import {RiddleAnswer} from "@/utils/Types";
 
 export interface EventEntityInterface {
-    id: string;
+    id: number;
     text: string;
-    pictureId: string | null;
+    picturePath: string | null;
     date: string;
 }
 
 export class EventEntity implements EventEntityInterface {
-    id: string = '';
-    pictureId: string | null = null;
+    id: number = -1;
+    picturePath: string | null = null;
     text: string = '';
     date: string = '';
 }

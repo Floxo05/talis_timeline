@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {EventDataService} from "@/utils/Data/EventDataService";
+import {DatasetEvent, EventDataService} from "@/utils/Data/EventDataService";
 import {EventEntityInterface} from "@/utils/Data/Entity/EventEntity";
 
 export type GetReachedEventsRequest = {
@@ -14,9 +14,22 @@ const getReachedEvents = async (req: NextRequest) => {
 
     const data: GetReachedEventsRequest = await req.json();
 
-    const reachedEvents: EventEntityInterface[] = await EventDataService.getReachedEvents(data.points);
+    const reachedEvents: DatasetEvent[] = await EventDataService.getReachedEvents(data.points);
 
-    return new NextResponse(JSON.stringify({events: reachedEvents}), {status: 200})
+    let eventsFormated: EventEntityInterface[] = [];
+
+    console.log(reachedEvents);
+
+    reachedEvents.forEach((event) => {
+        eventsFormated.push({
+            id: event.id,
+            date: event.date,
+            picturePath: event.image_path,
+            text: event.title
+        })
+    })
+
+    return new NextResponse(JSON.stringify({events: eventsFormated}), {status: 200})
 };
 
 export {getReachedEvents as POST};

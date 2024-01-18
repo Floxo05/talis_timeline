@@ -68,7 +68,8 @@ const Timeline: React.FC = () => {
             {timelineData ? (
                 <div className="overflow-y-auto max-h-[70vh]">
                     {timelineData.map((entry, index) => (
-                        <TimelineEntry key={index} date={entry.date} text={entry.text} pictureId={entry.pictureId ?? ''}/>
+                        <TimelineEntry key={index} date={entry.date} text={entry.text}
+                                       picturePath={entry.picturePath ?? ''}/>
                     ))}
                 </div>
             ) : (
