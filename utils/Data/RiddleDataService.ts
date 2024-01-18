@@ -1,6 +1,6 @@
 import {PictureService} from "@/utils/Picture/PictureService";
 import {RiddleEntity, RiddleEntityInterface} from "@/utils/Data/Entity/RiddleEntity";
-import {PrismaClient} from "@prisma/client";
+import prisma from "@/utils/Database/prisma";
 
 export type DatasetRiddle = {
     id: number,
@@ -21,7 +21,7 @@ export class RiddleDataService {
     private _riddle: RiddleEntity = new RiddleEntity();
 
     constructor() {
-        this.pictureService = new PictureService('picture/riddle/');
+        this.pictureService = new PictureService('public/pictures/riddle/');
     }
 
     async createRiddle(formData: FormData) {
@@ -62,8 +62,6 @@ export class RiddleDataService {
 
 
     async saveRiddle() {
-        const prisma = new PrismaClient();
-
         const data = {
             title: this._riddle.text,
             score: this._riddle.points,
@@ -96,8 +94,6 @@ export class RiddleDataService {
     }
 
     async loadRiddle(id: number, where: object = {}) {
-        const prisma = new PrismaClient();
-
         const riddle: DatasetRiddle | null = await prisma.riddle.findUnique({
             where: {
                 id: id,
@@ -118,9 +114,10 @@ export class RiddleDataService {
         return this._riddle;
     }
 
+    /**
+     * @throws Error
+     */
     async loadRandomRiddle() {
-        const prisma = new PrismaClient();
-
         const riddles: DatasetRiddle[] | null = await prisma.riddle.findMany({
             where: {
                 answer_status: {
@@ -129,9 +126,11 @@ export class RiddleDataService {
             }
         });
 
-        if (!riddles) {
-            return;
+        if (!riddles || riddles.length === 0) {
+            throw new Error('No riddle available');
         }
+
+        console.log(riddles);
 
         const randomIndex = Math.floor(Math.random() * riddles.length);
 

@@ -5,9 +5,14 @@ import {RiddleDataService} from "@/utils/Data/RiddleDataService";
 const getRiddle = async () => {
 
     const rds = new RiddleDataService();
-    await rds.loadRandomRiddle()
+    try {
+        await rds.loadRandomRiddle();
+        return new NextResponse(JSON.stringify(rds.riddle), {status: 200})
+    } catch (e) {
+        return new NextResponse(null, {status: 500})
+    }
 
-    return new NextResponse(JSON.stringify(rds.riddle), {status: 200})
+    // return new NextResponse(JSON.stringify(rds.riddle), {status: 200})
 };
 
 export {getRiddle as GET};

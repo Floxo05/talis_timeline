@@ -4,8 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {RiddleAnswer} from "@/utils/Types";
 import {RiddleEntityInterface} from "@/utils/Data/Entity/RiddleEntity";
-import Image from "next/image";
-import {GetPicturePathRequest, GetPicturePathResponse} from "@/app/api/riddle/picture/get-path/route";
+import Image, {ImageLoaderProps} from "next/image";
 import RiddleFeedback from "@/components/RiddleFeedback";
 import {RightAnwserRequest} from "@/app/api/riddle/answer/right/route";
 import {WrongAnswerRequest} from "@/app/api/riddle/answer/wrong/route";
@@ -26,40 +25,22 @@ const Riddles: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     const [riddleAnswer, setRiddleAnswer] = useState<RiddleAnswer>('pending');
-    const [picturePath, setPicturePath] = useState('')
 
     useEffect(() => {
         getNewRiddle();
     }, []);
 
-    useEffect(() => {
-
-        if (!riddleData || !riddleData.picturePath) {
-            return;
-        }
-
-        const data: GetPicturePathRequest = {
-            id: riddleData.picturePath
-        }
-
-        fetch('/api/riddle/picture/get-path/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then((res) => res.json())
-            .then((data: GetPicturePathResponse) => setPicturePath(data.path))
-    }, [riddleData]);
-
     const getNewRiddle = () => {
         setLoading(true);
         setRiddleAnswer('pending');
-        setPicturePath('');
 
         fetch('/api/riddle/get') // Updated API endpoint
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('No data available');
+                }
+                return response.json();
+            })
             .then((data: RiddleEntityInterface) => {
                 setRiddleData(data);
                 setLoading(false);
@@ -137,12 +118,15 @@ const Riddles: React.FC = () => {
         getNewRiddle()
     }
 
+    const imageLoader = ({src, width, quality}: ImageLoaderProps) => {
+        return `http://localhost:3000/${src}?w=${width}&q=${quality || 75}`
+    }
 
     return (
         <div className="text-center">
             <h1 className="text-4xl font-bold mb-2">Riddle Page</h1>
             {loading ? (
-                <LoadingCircle />
+                <LoadingCircle/>
             ) : (
                 <>
                     {riddleAnswer === 'wrong' ? (
@@ -155,9 +139,14 @@ const Riddles: React.FC = () => {
                                 <>
                                     <p className="text-lg mb-4">{riddleData.text}</p>
                                     <p className="mb-4">Punkte: {riddleData.points}</p>
-                                    {picturePath !== '' && (
-                                        <Image src={picturePath} alt={'Riddle picture'} width={300} height={100}
-                                               className={'p-4'}/>
+                                    {riddleData.picturePath !== '' && riddleData.picturePath && (
+                                        <Image
+                                            loader={imageLoader}
+                                            src={'/' + riddleData.picturePath}
+                                            alt={'Riddle picture'}
+                                            width={300}
+                                            height={100}
+                                            className={'p-4'}/>
                                     )}
                                     <div>
                                         {riddleData.answers.map((option, index) => (
@@ -169,7 +158,8 @@ const Riddles: React.FC = () => {
                                     </div>
                                 </>
                             ) : (
-                                <RiddleFeedback newRiddle={() => {}} text={'Glückwunsch 🥳, du hast alle Rätsel gelöst'} isCompleted={true} />
+                                <RiddleFeedback newRiddle={() => {
+                                }} text={'Glückwunsch 🥳, du hast alle Rätsel gelöst'} isCompleted={true}/>
                             )}
                         </>
                     )}
