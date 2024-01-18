@@ -12,7 +12,6 @@ const Home: React.FC = () => {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newPassword = e.target.value;
         setCountFailTries((prev) => ++prev);
-        console.log(countFailTries)
 
         if (newPassword === PASSWORD_USER) {
             // Navigate to the next page

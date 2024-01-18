@@ -23,7 +23,6 @@ const EventCreate: React.FC = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        console.log(date)
         if (text === '' || date === '') {
             alert('Bitte alle Felder ausfüllen');
             return;

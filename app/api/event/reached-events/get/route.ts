@@ -18,8 +18,6 @@ const getReachedEvents = async (req: NextRequest) => {
 
     let eventsFormated: EventEntityInterface[] = [];
 
-    console.log(reachedEvents);
-
     reachedEvents.forEach((event) => {
         eventsFormated.push({
             id: event.id,

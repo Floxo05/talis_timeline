@@ -45,7 +45,6 @@ const Timeline: React.FC = () => {
             .then((response) => response.json())
             .then((data: GetReachedEventsResponse) => {
                 setTimelineData(data.events);
-                console.log(data.events)
             })
             .catch((error) => console.error('Error fetching timeline data:', error));
     }, [points]);

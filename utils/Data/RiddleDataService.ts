@@ -126,8 +126,6 @@ export class RiddleDataService {
             throw new Error('No riddle available');
         }
 
-        console.log(riddles);
-
         const randomIndex = Math.floor(Math.random() * riddles.length);
 
         this.convertDatasetToLokal(riddles[randomIndex]);
