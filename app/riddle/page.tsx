@@ -73,16 +73,6 @@ const Riddles: React.FC = () => {
             return
         }
 
-        await fetch('/api/points/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                points: riddleData.points
-            })
-        });
-
         const data: RightAnwserRequest = {
             id: riddleData.id
         }

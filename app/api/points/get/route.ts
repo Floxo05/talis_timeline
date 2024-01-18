@@ -1,11 +1,11 @@
 import {NextRequest, NextResponse} from "next/server";
-import {PointDataService} from "@/utils/Data/PointDataService";
+import {RiddleDataService} from "@/utils/Data/RiddleDataService";
 
 const getPoints = async (req: NextRequest) => {
 
-    const pds = new PointDataService();
+    const rds = new RiddleDataService();
+    const points = await rds.getPoints();
 
-    const points = await pds.getData()
 
     return new NextResponse(JSON.stringify(points), {status: 200})
 };

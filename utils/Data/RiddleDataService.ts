@@ -146,4 +146,17 @@ export class RiddleDataService {
         // @ts-ignore
         this._riddle.answerStatus = dataset.answer_status;
     }
+
+    async getPoints() {
+        const points = await prisma.riddle.aggregate({
+            _sum: {
+                score: true
+            },
+            where: {
+                answer_status: 'right'
+            }
+        });
+
+        return points._sum.score ?? 0;
+    }
 }
