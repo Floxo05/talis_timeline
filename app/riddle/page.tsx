@@ -141,8 +141,7 @@ const Riddles: React.FC = () => {
                                     <p className="mb-4">Punkte: {riddleData.points}</p>
                                     {riddleData.picturePath !== '' && riddleData.picturePath && (
                                         <Image
-                                            loader={imageLoader}
-                                            src={'/' + riddleData.picturePath}
+                                            src={riddleData.picturePath}
                                             alt={'Riddle picture'}
                                             width={300}
                                             height={100}

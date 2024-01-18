@@ -22,7 +22,8 @@ export class PictureService {
 
         await this.savePictureToFs(image)
 
-        return this.picture.path;
+        //remove public to make loading easier
+        return this.picture.path.replace('public', '');
     }
 
     private getFileType(image: File) {
