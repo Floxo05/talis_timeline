@@ -31,8 +31,8 @@ const Home: React.FC = () => {
 
     return (
             <div className="text-center">
-                <h1 className="text-4xl font-bold mb-4">Welcome to My App</h1>
-                <p className="text-lg mb-4">Enter your password to access the app.</p>
+                <h1 className="text-4xl font-bold mb-4">Timeline</h1>
+                <p className="text-lg mb-4">Enter the password to access the app</p>
                 {countFailTries > 50 && (
                     <p className={'mb-2 text-red-600 text-lg'}>Hint: ailT</p>
                 )}

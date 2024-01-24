@@ -61,7 +61,7 @@ const HelpFlayout = () => {
                         onClick={handleLinkClick}
                         className={'bg-blue-500 text-white p-2 mt-4 hover:bg-blue-700 cursor-pointer'}
                     >
-                        Flyout schließen
+                        Schließen
                     </button>
                 </div>
             )}
