@@ -9,19 +9,19 @@ generator client {
 
 model Event {
   id         Int     @id @default(autoincrement())
-  title      String
+  title      String  @db.Text
   image_path String?
   date       String
 }
 
 model Riddle {
   id            Int     @id @default(autoincrement())
-  title         String
+  title         String  @db.Text
   score         Int
-  question1     String
-  question2     String
-  question3     String
-  question4     String
+  question1     String  @db.Text
+  question2     String  @db.Text
+  question3     String  @db.Text
+  question4     String  @db.Text
   correctAnswer Int
   image_path    String?
   answer_status String
