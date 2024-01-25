@@ -29,7 +29,6 @@ const Timeline: React.FC = () => {
             .then((res) => res.json())
             .then((data) => {
                 setPoints(data.points)
-                console.log(data)
             })
             .catch((error) => console.log(error));
     }, []);
