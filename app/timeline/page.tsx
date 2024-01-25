@@ -23,7 +23,9 @@ const Timeline: React.FC = () => {
     const [points, setPoints] = useState(0);
 
     useEffect(() => {
-        fetch('/api/points/get')
+        fetch('/api/points/get', {
+            cache: 'no-store'
+        })
             .then((res) => res.json())
             .then((data) => {
                 setPoints(data.points)
@@ -44,7 +46,8 @@ const Timeline: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(dataRequest)
+            body: JSON.stringify(dataRequest),
+            cache: 'no-store'
         })
             .then((response) => response.json())
             .then((data: GetReachedEventsResponse) => {

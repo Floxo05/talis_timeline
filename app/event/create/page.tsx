@@ -35,7 +35,8 @@ const EventCreate: React.FC = () => {
 
         const response = await fetch('/api/event/create', {
             method: 'POST',
-            body: formData
+            body: formData,
+            cache: 'no-store'
         });
 
         if (response.ok) {

@@ -34,7 +34,9 @@ const Riddles: React.FC = () => {
         setLoading(true);
         setRiddleAnswer('pending');
 
-        fetch('/api/riddle/get') // Updated API endpoint
+        fetch('/api/riddle/get', {
+            cache: 'no-store'
+        }) // Updated API endpoint
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('No data available');
