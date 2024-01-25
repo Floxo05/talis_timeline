@@ -20,11 +20,8 @@ const TimelineEntry: React.FC<TimelineEntry> = ({date, text, picturePath}) => {
         setIsModalOpen(false);
     };
 
-    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        // Close the modal if the click occurs outside the image
-        if (e.target === e.currentTarget) {
-            closeModal();
-        }
+    const handleOverlayClick = () => {
+        closeModal();
     };
     const dateObject = new Date(date);
     const dateReadable = `${dateObject.getDate()}.${dateObject.getMonth() + 1}.${dateObject.getFullYear()}`
